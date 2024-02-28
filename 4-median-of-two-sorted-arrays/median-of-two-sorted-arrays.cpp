@@ -1,5 +1,4 @@
-//Bruteforce Method
-//timecomplexity 
+//better approach
 class Solution {
 public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
@@ -7,29 +6,41 @@ public:
     auto m = nums2.size();
     auto l = 0;
     auto r = 0;
-    vector<int> arr;
+    auto t = (n+m);
+    auto med1 = t/2;
+    auto med2 = t/2-1;
+    auto count = 0;
+    auto indel1 = -1;
+    auto indel2 = -1;
     while (l < n && r < m) {
         if (nums1[l] <= nums2[r]) {
-            arr.push_back(nums1[l]);
+            if(count == med1) indel1 = nums1[l];
+            if(count == med2) indel2 = nums1[l];
             l++;
+            count++;
         } else {
-            arr.push_back(nums2[r]);
+            if(count == med1) indel1 = nums2[r];
+            if(count == med2) indel2 = nums2[r];
             r++;
+            count++;
         }
     }
     while (l < n) {
-        arr.push_back(nums1[l]);
+        if(count == med1) indel1 = nums1[l];
+        if(count == med2) indel2 = nums1[l];
         l++;
+        count++;
     }
     while (r < m) {
-        arr.push_back(nums2[r]);
+        if(count == med1) indel1 = nums2[r];
+        if(count == med2) indel2 = nums2[r];
         r++;
+        count++;
     }
-    auto t = arr.size();
     if (t % 2 == 1) {
-        return arr[t / 2];
+        return indel1;
     }
-    return (double)(arr[t / 2] + arr[t / 2 - 1]) / 2.0;
+    return (double)(indel1+indel2) / 2.0;
     }
 
 };
