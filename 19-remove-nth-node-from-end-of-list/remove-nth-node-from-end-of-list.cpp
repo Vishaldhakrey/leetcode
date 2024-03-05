@@ -14,36 +14,28 @@ public:
         if(head==nullptr){
             return nullptr;
         }
-        ListNode* p = head;
-        ListNode* q = head;
-        for(int i=0; i<n; i++){
-            p=p->next;
+        int size=0;
+        ListNode* curr = head;
+
+        while(curr != nullptr){
+            curr= curr->next;
+            size++;
+
         }
-        if(!p){
+        int traverse = size-n-1;
+        if(traverse == -1){
             return head->next;
         }
-        while(p->next){
-            p = p->next;
-            q = q->next;
+        curr = head;
+        int i=0;
+        while(i<traverse){
+            curr = curr->next;
+            i++;
         }
-
-        q->next = q->next->next;
+        curr->next = curr->next->next;
         return head;
         
-        // ListNode temp(0);
-        // temp->next = head;
-        // int size;
-        // while(temp->next != nullptr){
-        //     temp=temp->next;
-        //     size++;
-        // }
-        // temp->next = head;
-
-        // for(int i=0; i<size-n; i++){
-        //     temp = temp->next;
-        // }
-        // temp->next = temp->next->next;
         
-        // return head;
+    
     }
 };
