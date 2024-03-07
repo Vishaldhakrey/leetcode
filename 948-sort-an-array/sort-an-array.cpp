@@ -1,8 +1,11 @@
 class Solution {
 public:
     int partition(std::vector<int>& nums, int low, int high) {
+        srand(time(0)); // Seed the random number generator with current time
         int pivotIndex = low + rand() % (high - low + 1);
-        swap(nums[low], nums[pivotIndex]);
+        
+        // Swap the element at pivotIndex with the element at low position
+        std::swap(nums[low], nums[pivotIndex]);
         int pivot = nums[low];
         int i = low;
         int j = high;
