@@ -1,18 +1,11 @@
-
 class Solution {
 public:
     void rotate(std::vector<int>& nums, int k) {
         int n = nums.size();
-        k=k%n;
-        std::vector<int> temp(k);
-        for (int i = 0; i < k; i++) {
-            temp[i] = nums[n - k + i];
-        }
-        for (int i = n - k - 1; i >= 0; i--) {
-            nums[i + k] = nums[i];
-        }
-        for (int i = 0; i < k; i++) {
-            nums[i] = temp[i];
-        }
+        k %= n; // Adjust k to be within the range of the vector size
+        
+        std::reverse(nums.begin(), nums.end()); // Reverse the entire vector
+        std::reverse(nums.begin(), nums.begin() + k); // Reverse the first k elements
+        std::reverse(nums.begin() + k, nums.end()); // Reverse the remaining elements after k
     }
 };
