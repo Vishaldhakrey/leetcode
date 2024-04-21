@@ -9,10 +9,17 @@ public:
 
         if(nums[n-1]> nums[n-2]) return n-1;
 
-        for(int i=1; i<n-1; i++){
-            if(nums[i-1] < nums[i] && nums[i+1] < nums[i]){
-                return i;
-            }
+        int left = 1;
+        int right = n-2;
+
+        while(left<=right){
+            int mid = (left+right)/2;
+
+            if(nums[mid] > nums[mid-1] && nums[mid] > nums[mid+1]) return mid;
+
+            else if(nums[mid] > nums[mid-1]) left = mid+1;
+
+            else right = mid-1;
         }
         return -1;
     }
