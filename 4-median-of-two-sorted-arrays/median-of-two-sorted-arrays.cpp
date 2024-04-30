@@ -6,43 +6,50 @@ public:
         auto n = nums1.size();
         auto m = nums2.size();
 
-        if(n == 0 && m == 0) return 0;
+        int tot = n+m;
+        int ind1 = tot/2;
+        int ind2 = tot/2-1;
 
-               
-        vector<int>temp;
-
-        auto left = 0;
-        auto right = 0;
+        int ele1 = -1;
+        int ele2 = -1;
         
+        int i=0;
+        int j=0;
+        int count = 0;
 
-        while(left<n && right<m){
-            if(nums1[left] <= nums2[right]){
-                temp.push_back(nums1[left]);
-                left++;
-            }
-            else{
-                temp.push_back(nums2[right]);
-                right++;
-                
-            }
+        while(i<n && j<m){
+           if(nums1[i]<nums2[j]){
+             if(count == ind1) ele1 = nums1[i];
+            if(count == ind2) ele2 = nums1[i];
+            count++;
+            i++;
+           }
+           else{
+            if(count == ind1) ele1 = nums2[j];
+            if(count == ind2) ele2 = nums2[j];
+            count++;
+            j++;
+           }
+        }
+        while(i<n){
+            if(count == ind1) ele1 = nums1[i];
+            if(count == ind2) ele2 = nums1[i];
+            count++;
+            i++;
+        }
+        while(j<m){
+            if(count == ind1) ele1 = nums2[j];
+            if(count == ind2) ele2 = nums2[j];
+            count++;
+            j++;
         }
 
-        while(left<n){
-            temp.push_back(nums1[left]);
-            left++;
+        if(tot%2 == 1){
+            return double(ele1);
         }
-        while(right<m){
-            temp.push_back(nums2[right]);
-            right++;
-        }
-        int size = temp.size();
+        return double(ele1+ele2)/2;
 
-        if(size%2 == 0){
-            int ind1 = size/2;
-            int ind2 = size/2-1;
-            return (temp[ind1]+temp[ind2])/2.0;
-        }
-        return temp[size/2];
+        
     }
 
 };
