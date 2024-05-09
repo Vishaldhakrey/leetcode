@@ -15,8 +15,8 @@ public:
     }
     
     void visit(string url) {
-        Node* newNode = new Node(url);
-        curr->next = newNode;
+        
+        curr->next = new Node(url);
         curr->next->prev = curr;
         curr = curr->next;
     }
