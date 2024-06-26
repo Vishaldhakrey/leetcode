@@ -1,23 +1,14 @@
 class Solution {
 public:
     string clearDigits(string s) {
-        stack<char>st;
-        for(int i=0; i<s.length(); i++){
-            
-            if(!isdigit(s[i])){
-                st.push(s[i]);
+        string res;
+        for(char ch : s){
+            if(isdigit(ch)){
+                res.pop_back();
             }
-            else{
-                st.pop();
-            }
+            else res+=ch;
         }
-        s = "";
-        while(!st.empty()){
-            s+=st.top();
-            st.pop();
-        }
-        reverse(s.begin(), s.end());
-        return s;
-       
+        return res;
+
     }
 };
