@@ -1,32 +1,55 @@
+#include <stack>
+#include <climits>
+
 class MinStack {
 public:
-    stack<int>st;
-    stack<int>minst;
+    std::stack<long long> st;
+    long long minVal;
+
     MinStack() {
+        while (!st.empty()) st.pop();
+        minVal = LLONG_MAX;
     }
     
     void push(int val) {
-        if(minst.empty() || val<=minst.top()){
-            minst.push(val);
+        long long value = val;
+        if (st.empty()) {
+            st.push(value);
+            minVal = value;
+        } else {
+            if (value < minVal) {
+                // Push a special value and update minVal
+                st.push(2 * value - minVal);
+                minVal = value;
+            } else {
+                st.push(value);
+            }
         }
-
-        st.push(val);
     }
     
     void pop() {
-       
-        if(st.top() == minst.top()){
-            minst.pop();
-        }
+        if (st.empty()) return;
+        
+        long long ele = st.top();
         st.pop();
+
+        // If the popped element is less than minVal, it means it's a special value
+        if (ele < minVal) {
+            minVal = 2 * minVal - ele;
+        }
     }
     
     int top() {
-        return st.top();
+        long long item = st.top();
+
+        // If the top element is a special value, the actual top is minVal
+        if (item < minVal) return minVal;
+        
+        return item;
     }
     
     int getMin() {
-        return minst.top();
+        return minVal;
     }
 };
 
