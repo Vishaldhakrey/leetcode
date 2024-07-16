@@ -1,24 +1,29 @@
 class Solution {
 public:
     int trap(vector<int>& height) {
-        auto left = 0;
-        auto n = height.size();
-        auto right = n-1;
-        auto leftmax = height[0];       //used for storing of leftmax 
-        auto rightmax = height[n-1];    //storing right max
-        auto result = 0;
+        int left = 0, right = height.size()-1;
+
+        int leftMax = 0, rightMax = 0;
+        int ans = 0;
+
         while(left<right){
-            if(leftmax<=rightmax){
+            if(height[left]<=height[right]){
+                if(height[left]>=leftMax){ leftMax = height[left];}
+                else{
+                    ans += leftMax-height[left];
+                }
                 left++;
-                leftmax = max(leftmax, height[left]);   // it will calculate the leftmax 
-                result += (leftmax-height[left]); 
             }
             else{
+                if(height[right]>=rightMax) {
+                    rightMax = height[right];
+                }
+                else{
+                    ans+=rightMax - height[right];
+                }
                 right--;
-                rightmax = max(rightmax, height[right]); // it will calculate right max and storing it
-                result += (rightmax-height[right]);
             }
         }
-        return result;
+        return ans;
     }
 };
