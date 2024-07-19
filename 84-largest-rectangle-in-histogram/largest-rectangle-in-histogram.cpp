@@ -2,49 +2,29 @@ class Solution {
 public:
     int largestRectangleArea(vector<int>& heights) {
 
+        stack<int>st;
         int n = heights.size();
 
-        stack<int>st;
+        int largestRect = 0;
 
-        int leftSmall[n], rightSmall[n];
+        for(int i=0; i<=n; i++){
+            while(!st.empty() && (i == n || heights[st.top()] >= heights[i])){
+                int height = heights[st.top()];
 
-        for(int i=0; i<n; i++)
-        {
-             while(!st.empty() && heights[st.top()]>=heights[i]){
                 st.pop();
-             }
+                int width;
+                if(st.empty()){
+                    width = i;
+                }
 
-             if(st.empty()){
-                leftSmall[i] = 0;
-             }
-             else{
-                leftSmall[i] = st.top()+1;
-             }
+                else{
+                    width = i - st.top() - 1;
+                }
 
-             st.push(i);
+                largestRect = max(largestRect, height * width);
+            }
+            st.push(i);
         }
-
-        while(!st.empty()){
-            st.pop();
-        }
-         for (int i = n - 1; i >= 0; i--) {
-        while (!st.empty() && heights[st.top()] >= heights[i])
-          st.pop();
-
-        if (st.empty())
-          rightSmall[i] = n - 1;
-        else
-          rightSmall[i] = st.top() - 1;
-
-        st.push(i);
-      }
-
-        int longestRect = 0;
-
-        for(int i=0; i<n; i++){
-            longestRect = max(longestRect, heights[i]*((rightSmall[i]-leftSmall[i])+1));
-        }
-
-        return longestRect;
+        return largestRect;
     }
 };
