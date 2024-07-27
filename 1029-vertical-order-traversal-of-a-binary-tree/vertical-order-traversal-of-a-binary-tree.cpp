@@ -10,27 +10,19 @@
  * };
  */
 class Solution {
+private: 
+    void traverse(TreeNode* root, int x, int y, map<int, map<int, multiset<int>>>& nodes){
+        if(root){
+            nodes[x][y].insert(root->val);
+            traverse(root->left, x-1, y+1, nodes);
+            traverse(root->right, x+1, y+1, nodes);
+        }
+    }
 public:
     vector<vector<int>> verticalTraversal(TreeNode* root) {
+       
         map<int, map<int, multiset<int>>>nodes;
-        queue<pair<TreeNode*, pair<int, int>>>q;
-
-        q.push({root, {0, 0}});
-
-        while(!q.empty()){
-            auto temp = q.front();
-            q.pop();
-            TreeNode* node = temp.first;
-
-            int fir = temp.second.first;
-            int sec = temp.second.second;
-
-            nodes[fir][sec].insert(node->val);
-
-            if(node->left!=NULL) q.push({node->left, {fir-1, sec+1}});
-            if(node->right!=NULL) q.push({node->right, {fir+1, sec+1}});
-        }
-
+       traverse(root, 0, 0, nodes);
         vector<vector<int>>ans;
 
         for(auto m : nodes){
@@ -40,6 +32,13 @@ public:
             }
             ans.push_back(col);
         }
+       
         return ans;
+        
+            
+           
+        
     }
+
+
 };
