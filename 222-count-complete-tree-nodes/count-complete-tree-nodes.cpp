@@ -10,22 +10,32 @@
  * };
  */
 class Solution {
+    private:
+    void findCountNodes(TreeNode* root, int &count)
+    {
+        if(root == NULL) return;
+        count++;
+        findCountNodes(root->left, count);
+        findCountNodes(root->right, count);
+    }
+    
 public:
     int countNodes(TreeNode* root) {
         int count = 0;
-        if(root == NULL) return count;
+        findCountNodes(root, count);
+        return count;
 
-        queue<TreeNode*>q;
+        // queue<TreeNode*>q;
 
-        q.push(root);
+        // q.push(root);
 
        
-        while(!q.empty()){
-            TreeNode* curr = q.front(); q.pop();
-            ++count;
-            if(curr->left) q.push(curr->left);
-            if(curr->right) q.push(curr->right);
-        }
-        return count;
+        // while(!q.empty()){
+        //     TreeNode* curr = q.front(); q.pop();
+        //     ++count;
+        //     if(curr->left) q.push(curr->left);
+        //     if(curr->right) q.push(curr->right);
+        // }
+        // return count;
     }
 };
