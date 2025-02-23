@@ -1,31 +1,31 @@
-#include <vector>
-#include <queue>
-#include <climits>
-
-using namespace std;
 
 class Solution {
 public:
     int shortestSubarray(vector<int>& nums, int k) {
         int n = nums.size();
-        int minSubarrayWindow = INT_MAX;
+        deque<pair<long long, int>> dq;
         long long sum = 0;
-
-        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> pq;
-        pq.push({0, -1}); // Handle prefix sum scenario
+        int minLength = INT_MAX;
 
         for (int i = 0; i < n; i++) {
             sum += nums[i];
 
-            while (!pq.empty() && sum - pq.top().first >= k) {
-                auto [prevSum, idx] = pq.top();
-                pq.pop();
-                minSubarrayWindow = min(minSubarrayWindow, i - idx);
+            if (sum >= k) {
+                minLength = min(minLength, i + 1);
             }
 
-            pq.push({sum, i});
+            while (!dq.empty() && sum - dq.front().first >= k) {
+                minLength = min(minLength, i - dq.front().second);
+                dq.pop_front();
+            }
+
+            while (!dq.empty() && sum <= dq.back().first) {
+                dq.pop_back();
+            }
+
+            dq.push_back({sum, i});
         }
 
-        return (minSubarrayWindow == INT_MAX) ? -1 : minSubarrayWindow;
+        return (minLength == INT_MAX) ? -1 : minLength;
     }
 };
