@@ -2,15 +2,14 @@ class Solution {
 public:
     int findDuplicate(vector<int>& arr) {
         int n = arr.size();
-
-        for (int i=0; i<n; i++) {
-            while(arr[i] != i+1) {
-                if (arr[arr[i]-1] == arr[i] ) {
-                    return arr[i];
-                }
-                swap(arr[arr[i]-1], arr[i]);
+        unordered_map<int, int>freq_map;
+        for (auto &num : arr) {
+            freq_map[num]++;
+            if (freq_map[num] > 1) {
+                return num;
             }
         }
+
         return -1;
     }
 };
