@@ -1,7 +1,12 @@
 class Solution {
 public:
-    bool isEqual(vector<int>& p_freq, vector<int>& s_freq) {
-        return p_freq == s_freq;
+    bool isZero(vector<int>& counter) {
+        for (int i=0; i<26; i++){
+            if (counter[i] != 0) {
+                return false;
+            }
+        }
+        return true;
     }
     vector<int> findAnagrams(string s, string p) {
         int n = s.size();
@@ -9,24 +14,24 @@ public:
         
         if (n < m) return {};
         vector<int>result;
-        vector<int>p_freq(26, 0), s_freq(26, 0);
+        vector<int>counter(26, 0);
 
         for (int i=0; i<m; i++) {
-            p_freq[p[i] - 'a']++;
-            s_freq[s[i] - 'a']++;
-        }
-        if (isEqual(p_freq, s_freq)) {
-            result.push_back(0);
+            counter[p[i] - 'a']++;
         }
 
-        int i=0, j=m; 
+        int i=0, j=0; 
         while (j < n) {
-            s_freq[s[j++] - 'a']++;
-            s_freq[s[i++] - 'a']--;
+            counter[s[j] - 'a']--;
 
-            if (isEqual(p_freq, s_freq)) {
-                result.push_back(i);
+            if (j-i+1 == m) {
+                if(isZero(counter)) {
+                    result.push_back(i);
+                }
+                counter[s[i]-'a']++;
+                i++;
             }
+            j++;
         }
         return result;
     }
