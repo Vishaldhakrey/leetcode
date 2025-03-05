@@ -4,23 +4,24 @@ public:
         int n = nums.size();
 
         vector<int>result(n, -1);
-        vector<long long>preSum(n, 0);
 
-        if (n < k) return result;
+        if (n < 2*k+1) return result;
 
 
-        long long sum = 0;
-        for (int i=0; i<n; i++) {
-            sum += nums[i];
-            preSum[i] = sum;
-        }
+        long long preSum = 0;
+        long long windowSum = 0;
+        int l=0, r=0;
 
-        for (int i=k; i<n-k; i++) {
-            long long sumToiPlusK = preSum[i+k];
-            long long removedSum = (i-k-1 < 0) ? 0 : preSum[i-k-1];
-            int average = k+k+1;
-            int totalAverageOfi = (sumToiPlusK - removedSum) / average;
-            result[i] = totalAverageOfi;
+        while (r < n) {
+            windowSum += nums[r];
+
+            if ((r-l+1) == (2*k+1)) {
+                int windowAvg = (windowSum-preSum) / (2*k+1);
+                result[r-k] =windowAvg;
+                preSum += nums[l];
+                l++;
+            }
+            r++;
         }
         return result;
     }
