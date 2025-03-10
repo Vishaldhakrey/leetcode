@@ -4,23 +4,30 @@ public:
         int n = s.size();
 
         int result = 0;
-        
-        for (int i=0; i<n; i++) {
-            int cnt0 = 0;
-            int cnt1 = 0;
-            for (int j=i; j<n; j++) {
-                if (s[j] == '0') {
-                    cnt0++;
-                }
-                else  {
-                    cnt1++;
-                }
-                if (cnt0 > k && cnt1 > k) {
-                    break;
-                }
-                result++;
+        int cnt0   = 0;
+        int cnt1   = 0;
+        int l=0, r=0;
+
+        while (r < n) {
+            if (s[r] == '0') {
+                cnt0++;
             }
+            else {
+                cnt1++;
+            }
+            while (cnt1 > k && cnt0 > k) {
+                if (s[l] == '0') {
+                    cnt0--;
+                }
+                else {
+                    cnt1--;
+                }
+                l++;
+            }
+            result += (r-l+1);
+            r++;
         }
+
         return result;
     }
 };
