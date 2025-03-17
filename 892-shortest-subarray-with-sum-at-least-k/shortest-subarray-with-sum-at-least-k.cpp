@@ -3,22 +3,24 @@ class Solution {
 public:
     int shortestSubarray(vector<int>& nums, int k) {
         int n = nums.size();
-        deque<pair<long long, int>> dq;
+
+        int minLen = INT_MAX;
         long long sum = 0;
-        int minLength = INT_MAX;
 
-        for (int i = 0; i < n; i++) {
+        deque<pair<long long, int>>dq;
+
+        for (int i=0; i<n; i++) {
             sum += nums[i];
-
             if (sum >= k) {
-                minLength = min(minLength, i + 1);
+                minLen = min(minLen, i+1);
             }
-
-            while (!dq.empty() && sum - dq.front().first >= k) {
-                minLength = min(minLength, i - dq.front().second);
+            //Shrinking the window
+            while (!dq.empty() && (sum - dq.front().first) >= k) {
+                minLen = min(minLen, i - dq.front().second);
                 dq.pop_front();
             }
 
+            //stored sum in dq while maintaining the monotonic increasing property
             while (!dq.empty() && sum <= dq.back().first) {
                 dq.pop_back();
             }
@@ -26,6 +28,6 @@ public:
             dq.push_back({sum, i});
         }
 
-        return (minLength == INT_MAX) ? -1 : minLength;
+        return (minLen == INT_MAX) ? -1 : minLen;
     }
 };
