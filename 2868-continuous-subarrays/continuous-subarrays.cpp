@@ -2,23 +2,21 @@ class Solution {
 public:
     long long continuousSubarrays(vector<int>& nums) {
         int n = nums.size();
-
         long long result = 0;
-        map<int, int>mp;
+        multiset<int> st;  // Stores elements in sorted order
 
-        int l=0, r=0;
-        while(r<n) {
-            mp[nums[r]]++;
+        int l = 0, r = 0;
+        while (r < n) {
+            st.insert(nums[r]);  // Expand window by inserting nums[r]
 
-            while (abs(mp.rbegin()->first - mp.begin()->first) > 2) {
-                mp[nums[l]]--;
-                if(mp[nums[l]] == 0) {
-                    mp.erase(nums[l]);
-                }
+            // Shrink window if max - min > 2
+            while (*st.rbegin() - *st.begin() > 2) {  
+                st.erase(st.find(nums[l])); // Remove nums[l]
                 l++;
             }
-            result += r-l+1;
-            r++;
+
+            result += (r - l + 1);  // Count valid subarrays
+            r++;  // Move right pointer
         }
         return result;
     }
