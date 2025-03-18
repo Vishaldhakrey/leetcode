@@ -3,21 +3,25 @@ public:
     int longestBeautifulSubstring(string word) {
         int n = word.size();
 
-        int cnt = 0;
-        unordered_map<char, int>freq;
+        int cnt = 1;
+        int length = 1;
         int maxLen = 0;
 
-        for (int r=0; r < n; r++) {
-            if (r > 0 && word[r] < word[r-1]) {
-                freq.clear();
-                cnt = 0;
-            }
-            
-            freq[word[r]]++;
-            cnt++;
+        for (int r=1; r < n; r++) {
+            if (word[r] >= word[r-1]) {
+                length++;
 
-            if (freq['a'] > 0 && freq['e'] > 0 && freq['i'] > 0 && freq['o'] > 0 && freq['u'] > 0) {
-                maxLen = max(maxLen, cnt);
+                if (word[r] > word[r-1]) {
+                    cnt++;
+                }
+            }
+            else {
+                length = 1;
+                cnt = 1;
+            }
+
+            if (cnt == 5) {
+                maxLen = max(maxLen, length);
             }
         }
         return maxLen;
