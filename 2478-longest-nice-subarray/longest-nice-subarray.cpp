@@ -4,16 +4,17 @@ public:
         int n = nums.size();
 
         int result = 1;
-        for (int i=0; i<n; i++) {
-            int mask = 0;
+        int mask   = 0;
+        int l = 0, r = 0;
 
-            for (int l=i; l<n; l++) {
-                if ((mask & nums[l]) != 0) {
-                    break;
-                }
-                result = max(result, l-i+1);
-                mask = (mask | nums[l]);
+        while (r < n) {
+            while ((mask & nums[r]) != 0) {
+                mask = (mask ^ nums[l]);
+                l++;
             }
+            result = max (result, r-l+1);
+            mask = (mask | nums[r]);
+            r++;
         }
         return result;
     }
