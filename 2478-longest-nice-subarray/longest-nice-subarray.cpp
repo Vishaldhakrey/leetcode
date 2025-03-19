@@ -8,11 +8,13 @@ public:
         int l = 0, r = 0;
 
         while (r < n) {
-            while ((mask & nums[r]) != 0) {
+            // If the mask and nums[r] is not 0 than shrink the window by removing the nums[l] by using XOR
+            while ((mask & nums[r]) != 0) { 
                 mask = (mask ^ nums[l]);
                 l++;
             }
             result = max (result, r-l+1);
+            //mask store the all Values by doing OR (sum)
             mask = (mask | nums[r]);
             r++;
         }
