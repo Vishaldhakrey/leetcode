@@ -1,5 +1,5 @@
 class Solution {
-public:
+private:
     int findBound(vector<int>& nums, int target, bool isFirst) {
         int index = -1;
         int left  = 0;
@@ -26,6 +26,7 @@ public:
         }
         return index;
     }
+public:
     vector<int> searchRange(vector<int>& nums, int target) {
 
         int first = findBound(nums, target, true);
