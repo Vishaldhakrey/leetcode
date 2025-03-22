@@ -1,26 +1,25 @@
 class Solution {
 public:
     int findMin(vector<int>& nums) {
-        int n = nums.size();
+        int left = 0, right = nums.size() - 1;
 
-        int left = 0;
-        int right = n-1;
-        int minEle = INT_MAX;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
 
-        while (left <= right) {
-            int mid = left + (right -left) / 2;
-            
-            //CHECKING SORTED PART
+            // If middle element is smaller than the rightmost element, min must be on the left half (including mid)
             if (nums[mid] < nums[right]) {
-                minEle = min(nums[mid], minEle);
-                right = mid-1;
+                right = mid;
             }
-            //UNOSERTED PART
+            // Otherwise, min must be in the right half (excluding mid)
+            else if (nums[mid] > nums[right]) {
+                left = mid + 1;
+            }
+            // When nums[mid] == nums[right], reduce search space by decrementing right
             else {
-                minEle = min(nums[left], minEle);
-                left = mid+1;               
+                right--;
             }
         }
-        return minEle;
+
+        return nums[left];
     }
 };
