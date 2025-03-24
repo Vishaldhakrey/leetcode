@@ -3,12 +3,18 @@ public:
     int mySqrt(int x) {
         int result = 0;
 
-        for (int i=1; i<=x; i++) {
-            if ((long)i*i <= x) {
-                result = i;
+        int left = 1;
+        int right = x;
+
+        while(left <= right) {
+            int mid = left + (right-left)/2;
+
+            if ((long)mid*mid <= x) {
+                result = mid;
+                left = mid+1;
             }
             else {
-                break;
+                right = mid-1;
             }
         }
         return result;
