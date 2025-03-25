@@ -1,47 +1,37 @@
 class Solution {
-private :
-    bool isPossible(vector<int>&weights, int days, int weight) {
-        int n = weights.size();
-        int sum = 0;
-        int requiredDays = 0;
-        for (int i=0; i<n; i++) {
-            if (weights[i] <= weight) {
-                sum += weights[i];
-                if (sum > weight) {
-                    requiredDays++;
-                    sum = weights[i];
-                }
+private:
+    bool canShipWithCapacity(vector<int>& weights, int days, int capacity) {
+        int currentWeight = 0, requiredDays = 1;
+
+        for (int weight : weights) {
+            if (weight > capacity) return false; // A single package exceeds capacity
+
+            if (currentWeight + weight > capacity) {
+                requiredDays++;
+                currentWeight = 0;
             }
-            else {
-                return false;
-            }
+            currentWeight += weight;
         }
-        if (sum <= weight) {
-            requiredDays++;
-        }
-        return (requiredDays <= days);
+
+        return requiredDays <= days;
     }
 
 public:
     int shipWithinDays(vector<int>& weights, int days) {
-        int totalWeight = accumulate(weights.begin(), weights.end(), 0);
+        int left = *max_element(weights.begin(), weights.end()); 
+        int right = accumulate(weights.begin(), weights.end(), 0);
+        int minCapacity = right;
 
-        int leftWeight = 1, rightWeight = totalWeight;
-        int minCapacityOfShip = -1;
-
-        while (leftWeight <= rightWeight) {
-            int mid = leftWeight + (rightWeight - leftWeight)/2;
-            bool ans = isPossible(weights, days, mid);
-            if (ans) {
-                minCapacityOfShip = mid;
-                rightWeight = mid-1;
-            }
-            else {
-                leftWeight = mid+1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (canShipWithCapacity(weights, days, mid)) {
+                minCapacity = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
             }
         }
-        return minCapacityOfShip;
-         
-        return -1;
+
+        return minCapacity;
     }
 };
