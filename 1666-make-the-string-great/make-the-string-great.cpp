@@ -1,16 +1,18 @@
 class Solution {
 public:
     string makeGood(string s) {
+        int n = s.size();
+        string result = "";
         int j=0;
-        while(!s.empty() && j<s.size()-1) {
-            if (tolower(s[j]) == tolower(s[j+1]) && s[j] != s[j+1]) {
-                s.erase(j, 2);
-                j=0;
+        while(j<s.size()) {
+            if (!result.empty() && tolower(result.back()) == tolower(s[j]) && result.back() != s[j]) {
+                result.pop_back();
             }
             else {
-            j++;
+                result.push_back(s[j]);
             }
+            j++;
         }
-        return s;
+        return result;
     }
 };
