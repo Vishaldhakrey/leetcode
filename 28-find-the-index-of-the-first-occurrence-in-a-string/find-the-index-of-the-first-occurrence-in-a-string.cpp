@@ -1,4 +1,26 @@
 class Solution {
+private :
+    void calculateLPS(string needle, vector<int>&lps, int m) {
+        int len = 0;
+        lps[0] = 0;
+
+        int i=1;
+        while(i < m) {
+            if (needle[i] == needle[len]) {
+                len++;
+                lps[i] = len;
+                i++;
+            }
+            else {
+                if ( len != 0) {
+                    len = lps[len-1];
+                }
+                else {
+                    i++;
+                }
+            }
+        }
+    }
 public:
     int strStr(string haystack, string needle) {
         int n = haystack.size();
@@ -8,27 +30,27 @@ public:
             return -1;
         }
 
-        int start = -1;
+        vector<int>lps(m, 0);
+        calculateLPS(needle, lps, m);
+
         int l=0, r=0;
         while (l < n ) {
             if (haystack[l] == needle[r]) {
-                if (start == -1) {
-                    start = l;
-                }
+                l++;
                 r++;
 
                 if (r == m) {
-                    return start;
+                    return l-r;
                 }
             }
             else {
-                if (start != -1) {
-                    l = start;
+                if (r != 0) {
+                    r = lps[r-1];
                 }
-                start = -1;
-                r=0;
+                else {
+                    l++;
+                }
             }
-            l++;
         }
         return -1;
     }
