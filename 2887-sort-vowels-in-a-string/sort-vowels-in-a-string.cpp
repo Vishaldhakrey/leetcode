@@ -9,20 +9,23 @@ public:
     string sortVowels(string s) {
         int n = s.size();
 
-        string vowels = "";
+        unordered_map<char, int> mp;
 
         for (auto &ch : s) {
             if (isVowel(ch)) {
-                vowels += ch;
+                mp[ch]++;
             }
         }
-
-        sort (vowels.begin(), vowels.end());
+        string vowels = "AEIOUaeiou";
         int j=0;
         for (int i=0; i<n; i++) {
             if (isVowel(s[i])) {
+                while (mp[vowels[j]] == 0) {
+                    j++;
+                }
+
                 s[i] = vowels[j];
-                j++;
+                mp[vowels[j]]--;
             }
         }
 
