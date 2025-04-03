@@ -1,34 +1,22 @@
-class Solution {
+class Solution {    
 public:
-    int n;
-    void findValidNum(string &s, unordered_set<string> &st,string & result, int ind) {
-        if (ind == n) {
-            if(st.find(s) == st.end()) {
-                result = s;
-            }
-            return;
-        }
-        
-        s[ind] = '1';
-        findValidNum(s, st, result, ind+1);
-
-        if (!result.empty()) {
-            return;
-        }
-        
-        s[ind] = '0';
-        findValidNum(s, st, result, ind+1);
-    }
+    
     string findDifferentBinaryString(vector<string>& nums) {
-        n = nums.size();
-        unordered_set<string>st;
+        int n = nums.size();
 
+        unordered_set<int>st;
         for (auto &num : nums) {
-            st.insert(num);
+            st.insert(stoi(num, 0, 2));
         }
-        string s(n, '0');
+
         string result = "";
-        findValidNum(s, st, result, 0);
-        return result;
+
+        for (int i=0; i<=n; i++) {
+            if (st.find(i) == st.end()) {
+                result = bitset<16>(i).to_string();
+            }
+        }
+
+        return result.substr(16-n, n);
     }
 };
