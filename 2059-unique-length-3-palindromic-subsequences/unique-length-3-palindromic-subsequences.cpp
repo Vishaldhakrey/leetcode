@@ -4,26 +4,24 @@ public:
     
     int countPalindromicSubsequence(string s) {
         int n = s.size();
-        unordered_set<char>letters;
 
-        for (auto &ch : s) {
-            letters.insert(ch);
+        vector<pair<int,int>> indices(26, {-1, -1});
+
+        for (int i=0; i<n; i++) {
+            int idx = s[i] - 'a';
+
+            if (indices[idx].first == -1) {
+                indices[idx].first = i;
+            }
+            indices[idx].second = i;
         }
 
         int result = 0;
 
-        for (auto &letter : letters) {
-            int first_idx = -1;
-            int last_idx = -1;
+        for (int i=0; i<26; i++) {
 
-            for (int i=0; i<n; i++) {
-                if (s[i] == letter) {
-                    if (first_idx == -1) {
-                        first_idx = i;
-                    }
-                    last_idx = i;
-                }
-            }
+            int first_idx = indices[i].first;
+            int last_idx = indices[i].second;
 
             unordered_set<char>middle_chars;
             for (int middle = first_idx+1; middle <= last_idx-1; middle++) {
@@ -31,7 +29,7 @@ public:
             }
 
             result += middle_chars.size();
-
+ 
         }
 
         return result;
