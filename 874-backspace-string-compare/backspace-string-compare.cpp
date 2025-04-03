@@ -4,27 +4,49 @@ public:
         int n = s.size();
         int m = t.size();
 
-        string s_str = "";
-        string t_str = "";
+        int s_skip = 0;
+        int t_skip = 0;
+        int i = n-1;
+        int j = m-1;
+        while (i >= 0 || j >= 0) {
+            while (i >= 0) {
+                if (s[i] == '#') {
+                    s_skip++;
+                    i--;
+                }
+                else if (s_skip > 0) {
+                    s_skip--;
+                    i--;
+                }
+                else {
+                    break;
+                }
+            }
 
-        for (auto &ch : s) {
-            if (!s_str.empty() && ch == '#') {
-                s_str.pop_back();
+            while (j >= 0) {
+                if (t[j] == '#') {
+                    t_skip++;
+                    j--;
+                }
+                else if (t_skip > 0) {
+                    t_skip--;
+                    j--;
+                }
+                else {
+                    break;
+                }
             }
-            else if (ch != '#') {
-                s_str += ch;
+
+            char first = i < 0 ? '$' : s[i];
+            char second = j < 0 ? '$' : t[j];
+
+            if (first != second) {
+                return false;
             }
+            i--;
+            j--;
         }
 
-        for (auto &ch : t) {
-            if (!t_str.empty() && ch == '#') {
-                t_str.pop_back();
-            }
-            else if (ch != '#') {
-                 t_str += ch;
-            }
-        }
-
-        return s_str == t_str;
+        return true;
     }
 };
