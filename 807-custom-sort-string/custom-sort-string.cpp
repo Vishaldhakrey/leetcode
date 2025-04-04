@@ -1,31 +1,18 @@
 class Solution {
 public:
     string customSortString(string order, string s) {
-        vector<int> freq(26, 0);
+        int n = order.size();
+        vector<int> indices(26, 0);
 
-        // Count frequency of characters in s
-        for (char ch : s) {
-            freq[ch - 'a']++;
+        for (int i=0; i<n; i++) {
+            indices[order[i] - 'a'] = i;
         }
 
-        string result = "";
+        auto myComparator = [&indices] (auto &ch1, auto &ch2) {
+            return indices[ch1-'a'] < indices[ch2 - 'a'];
+        };
+        sort(s.begin(), s.end(), myComparator);
 
-        // Append characters in the order specified
-        for (char ch : order) {
-            while (freq[ch - 'a'] > 0) {  // Append all occurrences
-                result += ch;
-                freq[ch - 'a']--;
-            }
-        }
-
-        // Append remaining characters that were not in 'order'
-        for (int i = 0; i < 26; i++) {
-            while (freq[i] > 0) {
-                result += char(i + 'a');
-                freq[i]--;
-            }
-        }
-
-        return result;
+        return s;
     }
 };
