@@ -11,10 +11,8 @@ public:
                 result += " ";
                 j++;
             }
-            else {
-                result += s[i];
-                i++;
-            }
+            result += s[i];
+            i++;
         }
 
         return result += s.substr(i);
