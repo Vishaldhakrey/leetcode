@@ -8,10 +8,10 @@ public:
         int i=0, j=0;
 
         while (i < m && j < n) {
-            int idx1 = str1[i] - 'a';
-            int idx2 = str2[j] - 'a';
+            char ch1 = str1[i];
+            char ch2 = str2[j];
 
-            if ((idx1 == 25 && idx2 == 0) || (idx2 - idx1) == 1 || (idx2 - idx1) == 0 ) {
+            if ((ch1 == ch2) || ch1+1 == ch2 || ch1 == ch2+25 ) {
                 j++;
             }
             i++;
