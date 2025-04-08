@@ -26,6 +26,7 @@ public:
                 cumm_sum += matrix[i][j];
                 if (cumm_sum >= 3) {
                     result = max(result, j);
+                    break;
                 }
             }
         } 
