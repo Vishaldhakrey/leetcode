@@ -4,29 +4,34 @@ public:
     int maximumLength(string s) {
         int n = s.size();
 
-        map<pair<char, int>, int>mp;
-
+        vector<vector<int>>matrix(26, vector<int>(n+1, 0));
+        int len = 0;
+        char prevChar = s[0];
         for (int i=0; i<n; i++) { //O(n)
-            int len = 0;
-            for (int j=i; j<n; j++) { //O(n)
-                if (s[j] == s[i]) {
-                    len += 1;
-                    mp[{s[j], len}]++; //To copy string O(n)
-                }
-                else {
+            char ch = s[i];
+            if (ch == prevChar) {
+                len += 1;
+                matrix[ch - 'a'][len] += 1;
+            }
+            else {
+                len = 1;
+                matrix[ch - 'a'][len] += 1;
+                prevChar = ch;
+            }
+        }
+
+        int result = 0;
+        
+        for (int i=0; i<26; i++) {
+            int cumSum = 0;
+            for (int j=n; j>= 1; j--) {
+                cumSum += matrix[i][j];
+                if (cumSum >= 3) {
+                    result = max(result, j);
                     break;
                 }
-            }
+            } 
         }
-        int result = 0;
-        for (auto &it : mp) {
-            int str_size = it.first.second;
-            int cnt = it.second;
-            if (cnt >= 3 && str_size > result) {
-                result = str_size;
-            }
-        }
-
         return result != 0 ? result : -1;
     }
 };
