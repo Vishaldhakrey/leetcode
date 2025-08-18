@@ -6,11 +6,10 @@ public:
 
         string res = "";
         for (int i=0; i<13; i++) {
-            int times = num / values[i];
-            while (times--) {
+            while (num >= values[i]) {
                 res += symbols[i];
+                num -= values[i];
             }
-            num = num % values[i];
         }
         return res;
     }
