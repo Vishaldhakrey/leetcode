@@ -2,10 +2,11 @@ class Solution {
 public:
     bool checkIfPangram(string sentence) {
         int n = sentence.size();
-        vector<int>freq(26, 0);
 
-        for (int i=0; i<n; i++) {
-            freq[sentence[i] - 'a']++;
+        vector<int>freq(26, 0);
+        
+        for (auto &ch: sentence) {
+            freq[ch-'a']++;
         }
 
         for (int i=0; i<26; i++) {
