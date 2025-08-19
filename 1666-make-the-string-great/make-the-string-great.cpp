@@ -2,17 +2,23 @@ class Solution {
 public:
     string makeGood(string s) {
         int n = s.size();
-        string result = "";
+        stack<char>st;
         int j=0;
         while(j<s.size()) {
-            if (!result.empty() && tolower(result.back()) == tolower(s[j]) && result.back() != s[j]) {
-                result.pop_back();
+            if (!st.empty() && toupper(st.top()) == toupper(s[j]) && st.top() != s[j]) {
+                st.pop();
             }
             else {
-                result.push_back(s[j]);
+                st.push(s[j]);
             }
             j++;
         }
-        return result;
+        s = "";
+        while (!st.empty()) {
+            s += st.top();
+            st.pop();
+        }
+        reverse(s.begin(), s.end());
+        return s;
     }
 };
