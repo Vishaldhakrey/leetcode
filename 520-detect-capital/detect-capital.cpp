@@ -1,17 +1,15 @@
 class Solution {
-    
 public:
-    bool check(string word, char first, char last) {
+    bool detectCapitalUse(string word) {
+        int countCapital = 0;
+
         for (auto &ch : word) {
-            if (ch < first || ch > last) {
-                return false;
+            if (isupper(ch)) {
+                countCapital++;
             }
         }
-        return true;
-    }
 
-    bool detectCapitalUse(string word) {
-        if (check(word, 'A', 'Z') || check(word, 'a', 'z') || check(word.substr(1), 'a', 'z')) {
+        if (countCapital == word.size() || countCapital == 0 || (countCapital == 1 && isupper(word[0]))) {
             return true;
         }
         return false;
