@@ -1,25 +1,17 @@
 class Solution {
     
 public:
-    bool allCapital(string word) {
+    bool check(string word, char first, char last) {
         for (auto &ch : word) {
-            if (ch < 'A' || ch > 'Z') {
+            if (ch < first || ch > last) {
                 return false;
             }
         }
         return true;
     }
 
-    bool allSmall(string word) {
-        for (auto &ch : word) {
-            if (ch < 'a' || ch > 'z'){
-                return false;
-            }
-        }
-        return true;
-    }
     bool detectCapitalUse(string word) {
-        if (allCapital(word) || allSmall(word) || allSmall(word.substr(1))) {
+        if (check(word, 'A', 'Z') || check(word, 'a', 'z') || check(word.substr(1), 'a', 'z')) {
             return true;
         }
         return false;
