@@ -9,6 +9,9 @@ public:
         return num <= 255;
     }
     void findValidIpAddresses(string &s, vector<string>&result, string curr, int part, int idx) {
+        if (part > 4) {
+            return;
+        }
         if (idx == n && part == 4) {
             curr.pop_back();
             result.push_back(curr);
