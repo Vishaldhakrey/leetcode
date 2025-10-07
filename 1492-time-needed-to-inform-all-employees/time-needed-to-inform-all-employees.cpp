@@ -1,13 +1,30 @@
 class Solution {
 public:
     int maxTime = INT_MIN;
-    void DFS(unordered_map<int, vector<int>>&adj, vector<int>& informTime, int curr_employee, int curr_time) {
-        maxTime = max(maxTime, curr_time);
+    // void DFS(unordered_map<int, vector<int>>&adj, vector<int>& informTime, int curr_employee, int curr_time) {
+    //     maxTime = max(maxTime, curr_time);
 
-        for (int &employee : adj[curr_employee]) {
+    //     for (int &employee : adj[curr_employee]) {
 
-            DFS(adj, informTime, employee, curr_time + informTime[curr_employee]);
+    //         DFS(adj, informTime, employee, curr_time + informTime[employee]);
 
+    //     }
+    //}
+    void BFS(unordered_map<int, vector<int>>&adj, vector<int>& informTime, int headID) {
+        queue<pair<int, int>>q;
+        q.push({headID, 0});
+
+        while (!q.empty()) {
+            pair<int, int> temp = q.front();
+            q.pop();
+            int curr_employee = temp.first;
+            int curr_time = temp.second;
+
+            maxTime = max(maxTime, curr_time);
+
+            for (auto &employee : adj[curr_employee]) {
+                q.push({employee, curr_time + informTime[curr_employee]});
+            }
         }
     }
     int numOfMinutes(int n, int headID, vector<int>& manager, vector<int>& informTime) {
@@ -22,7 +39,9 @@ public:
             }
             
         }
-        DFS(adj, informTime, headID, 0);
+        //DFS(adj, informTime, headID, 0);
+        BFS(adj, informTime, headID);
+
         return maxTime;
 
     }
